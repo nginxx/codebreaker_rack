@@ -1,0 +1,23 @@
+body {
+    background-color: #CAB9B9;
+}
+
+#container {
+    padding-top: 10%;
+}
+
+.error {
+    color: red;
+}
+
+.result {
+    color: darkgreen;
+}
+
+.hint {
+    padding-top: 1%;
+}
+
+.hint p {
+    display: none;
+}

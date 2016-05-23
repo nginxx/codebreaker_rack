@@ -10,7 +10,7 @@ class Game
 
   def initialize
     @secret_code = code_generator
-    @error, @result, @content, @name = nil
+    @error = @result = @content = @name = nil
     @attempts = 0
     @hints = @secret_code.chars.sample
     @win = false
@@ -43,24 +43,17 @@ class Game
     time = (Time.now - @start_time).to_i
     result = { name: @name, secret_code: @secret_code, attempts: @attempts,
               hints: @hints, win: @win, time: "#{time} sec" }
-    File.open('results.json', 'a+') do |f|
-      f.puts(result.to_json)
-    end
+    File.open('results.json', 'a+') { |f| f.puts(result.to_json) }
   end
 
   def match_position(num)
     code = @secret_code.chars
     num = num.chars
-    guess = num.map.with_index do |item, index|
-      next unless item == code[index]
-      code[index] = nil
-      '+'
+    guess = num.zip(code).map do |x, y|
+      next unless x == y
+      code[code.index(y)] = nil; '+'
     end
-    num.each do |item|
-      next unless code.include?(item)
-      guess << '-'
-      code.delete_at(code.index(item))
-    end
+    guess << '-' * (num & code).size
     guess.join
   end
 

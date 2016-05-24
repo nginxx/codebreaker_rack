@@ -1,6 +1,6 @@
 require_relative 'game'
 # Managing game class
-class Index
+class Play
   def initialize
     @game = Game.new
   end

@@ -1,6 +1,6 @@
-require_relative 'app/index'
+require_relative 'app/play'
 
 use Rack::Reloader
 use Rack::Static, urls: %w(/css /js), root: 'app/assets'
 
-run Index.new
+run Play.new

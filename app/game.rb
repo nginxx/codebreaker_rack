@@ -10,7 +10,6 @@ class Game
 
   def initialize
     @secret_code = code_generator
-    @error = @result = @content = @name = nil
     @attempts = 0
     @hints = @secret_code.chars.sample
     @win = false
@@ -34,9 +33,7 @@ class Game
   private
 
   def code_generator
-    code = []
-    CODE_SIZE.times { code << rand(NUM_RANGE) }
-    code.join
+    Array.new(CODE_SIZE).map { rand(NUM_RANGE) }.join
   end
 
   def save_result
@@ -51,7 +48,7 @@ class Game
     num = num.chars
     guess = num.zip(code).map do |x, y|
       next unless x == y
-      code[code.index(y)] = nil; '+'
+      num -= [x]; code -= [y]; '+'
     end
     guess << '-' * (num & code).size
     guess.join

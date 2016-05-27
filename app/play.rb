@@ -18,7 +18,7 @@ class Play
 
   def call(env)
     @request = Rack::Request.new(env)
-    router(@request.path_info)
+    router([@request.path_info, @request.request_method])
     Rack::Response.new(render('layout.html.erb'))
   end
 
@@ -26,7 +26,7 @@ class Play
 
   def router(route)
     case route
-    when '/start' then start
+    when %w(/start GET) then start
     else index
     end
   end

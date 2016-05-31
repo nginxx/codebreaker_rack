@@ -46,11 +46,18 @@ class Game
   def match_position(num)
     code = @secret_code.chars
     num = num.chars
-    guess = num.zip(code).map do |x, y|
-      next unless x == y
-      num -= [x]; code -= [y]; '+'
+    guess = code.map.with_index do |item, index|
+      next unless num[index] == item
+      num[index] = code[index] = nil
+      '+'
     end
-    guess << '-' * (num & code).size
+    code.compact!
+    num.compact!
+    code.each do |item|
+      next unless num.include?(item)
+      num[num.index(item)] = nil
+      guess << '-'
+    end
     guess.join
   end
 
